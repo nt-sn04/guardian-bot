@@ -7,15 +7,21 @@ def ban_command(update: Update, context: CallbackContext):
         chat_id="@testeaknjdfkjasndkjfs", user_id=update.effective_user.id
     )
     if not chat_member:
-        update.message.reply_text("siz admin emassiz.")
+        context.bot.delete_message(
+            chat_id=update.effective_chat.id, message_id=update.message.message_id
+        )
         return
 
     if chat_member.status not in (ChatMember.ADMINISTRATOR, ChatMember.CREATOR):
-        update.message.reply_text("siz admin emassiz.")
+        context.bot.delete_message(
+            chat_id=update.effective_chat.id, message_id=update.message.message_id
+        )
         return
 
     if update.message.reply_to_message is None:
-        update.message.reply_text("repy qilmadingiz.")
+        context.bot.delete_message(
+            chat_id=update.effective_chat.id, message_id=update.message.message_id
+        )
         return
 
     reply_to_message = update.message.reply_to_message
@@ -26,11 +32,15 @@ def ban_command(update: Update, context: CallbackContext):
     )
 
     if not chat_member:
-        update.message.reply_text("siz admin emassiz.")
+        context.bot.delete_message(
+            chat_id=update.effective_chat.id, message_id=update.message.message_id
+        )
         return
 
     if chat_member.status in (ChatMember.ADMINISTRATOR, ChatMember.CREATOR):
-        update.message.reply_text("adminni ban qilolmaysiz.")
+        context.bot.delete_message(
+            chat_id=update.effective_chat.id, message_id=update.message.message_id
+        )
         return
 
     context.bot.restrict_chat_member(
@@ -47,4 +57,4 @@ def ban_command(update: Update, context: CallbackContext):
     context.bot.delete_message(
         chat_id=update.effective_chat.id, message_id=reply_to_message.message_id
     )
-    update.message.reply_text("ban qilindi")
+    update.message.reply_text(f"{from_user.first_name}-user ban qilindi")
